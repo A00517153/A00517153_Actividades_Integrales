@@ -7,50 +7,101 @@
 
 using namespace std;
 
-
-def int setMonth(string month){
-	if(month="Jan"){return 1;}
-	if(month="Feb"){return 2;}
-	if(month="Mar"){return 1;}
-	if(month="Apr"){return 2;}
-	if(month="May"){return 1;}
-	if(month="Jun"){return 2;}
-	if(month="Jul"){return 1;}
-	if(month="Aug"){return 2;}
-	if(month="Sep"){return 1;}
-	if(month="Oct"){return 2;}
-	if(month="Nov"){return 1;}
-	if(month="Dec"){return 2;}
-}
-
 class logs {
 	private:
-		int *date=new int[5];
-		int *ip= new int[5];
-		string fail;
+		int date[5];
+		int ip[5];
+		string logText;
 	public:
+    logs();
 		logs(string);
-		~logs();
 		int getDate(int)const;
 		int getIp(int)const;
-		string getFail()const;
-		string toString()const;
+		string getLogText()const;
+		string toString();
+    int setMonth(string);
+    string getMonth(int);
 };
 
-logs::logs(string log){
-	stringstream aux1,aux2;
-	string aux3;
-	aux1<<log;
-	getline(aux1,date[0],' ');
-	getline(aux1,date[1],' ');
-	getline(aux1,date[2],':');
-	getline(aux1,date[3],':');
-	getline(aux1,date[4],':');
-	
+logs::logs(){
+  //Empty constructor.
 }
 
+logs::logs(string log){
+	stringstream aux1(log);
+	string auxstr;
 
+	getline(aux1,auxstr,' ');
+  date[0]=setMonth(auxstr);
+	getline(aux1,auxstr,' ');
+  date[1]=stoi(auxstr);
+	getline(aux1,auxstr,':');
+  date[2]=stoi(auxstr);
+	getline(aux1,auxstr,':');
+  date[3]=stoi(auxstr);
+	getline(aux1,auxstr,' ');
+  date[4]=stoi(auxstr);
 
+  getline(aux1,auxstr,'.');
+  ip[0]=stoi(auxstr);
+  getline(aux1,auxstr,'.');
+  ip[1]=stoi(auxstr);
+  getline(aux1,auxstr,'.');
+  ip[2]=stoi(auxstr);
+  getline(aux1,auxstr,':');
+  ip[3]=stoi(auxstr);
+  getline(aux1,auxstr,' ');
+  ip[4]=stoi(auxstr);
+
+  getline(aux1,logText,'\n');
+}
+
+int logs::getDate(int x)const{return date[x];}
+
+int logs::getIp(int x)const{return ip[x];}
+
+string logs::getLogText()const{return logText;}
+
+string logs::toString(){
+  stringstream aux;
+  aux<<getMonth(date[0])<<date[1]<<" "<<date[2]<<":"<<date[3]<<":"<<date[4]<<" ";
+  aux<<ip[0]<<"."<<ip[1]<<"."<<ip[2]<<"."<<ip[3]<<":"<<ip[4]<<" ";
+  aux<<logText<<"\n";
+  return aux.str();
+}
+
+int logs::setMonth(string month){
+	if(month=="Jan"){return 1;}
+	if(month=="Feb"){return 2;}
+	if(month=="Mar"){return 3;}
+	if(month=="Apr"){return 4;}
+	if(month=="May"){return 5;}
+	if(month=="Jun"){return 6;}
+	if(month=="Jul"){return 7;}
+	if(month=="Aug"){return 8;}
+	if(month=="Sep"){return 9;}
+	if(month=="Oct"){return 10;}
+	if(month=="Nov"){return 11;}
+	if(month=="Dec"){return 12;}
+};
+
+string logs::getMonth(int month){
+  switch(month){
+    case 1: return "Jan ";
+    case 2: return "Feb ";
+    case 3: return "Mar ";
+    case 4: return "Apr ";
+    case 5: return "May ";
+    case 6: return "Jun ";
+    case 7: return "Jul ";
+    case 8: return "Aug ";
+    case 9: return "Sep ";
+    case 10:return "Oct "; 
+    case 11:return "Nov ";
+    case 12:return "Dec ";
+    default: return "N/D ";
+  }
+};
 
 
 #endif
