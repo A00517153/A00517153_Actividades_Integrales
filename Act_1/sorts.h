@@ -11,13 +11,13 @@ class Sorts{
 	private:
 		void swap(vector<T>&,int,int);
 		void copyArray(vector<T>&,vector<T>&,int,int);
-    bool compareDate(vector<T>&,int,int,int);
-    bool compareIp(vector<T>&,int,int,int);
 		void mergeArray(vector<T>&,vector<T>&,int,int,int,int);
 		void mergeSplit(vector<T>&,vector<T>&,int,int,int);
     
 	public:
 		void mergeSort(vector<T>&,int);
+    bool compareDate(T&,T&,int);
+    bool compareIp(T&,T&,int);
 		
 };
 
@@ -36,34 +36,12 @@ void Sorts<T>::copyArray(vector<T> &A, vector<T> &B, int low, int high){
 }
 
 template <class T>
-bool Sorts<T>::compareDate(vector<T> &A, int i, int j, int z){
-  if(z<4){
-    if(A[i].getDate(z)!=A[j].getDate(z)){
-      return (A[i].getDate(z)<A[j].getDate(z))? true : false;
-    } else {
-      return compareDate(A,i,j,z+1);
-    }
-  } else {return false;}
-}
-
-template <class T>
-bool Sorts<T>::compareIp(vector<T> &A, int i, int j, int z){
-  if(z<4){
-    if(A[i].getIp(z)!=A[j].getIp(z)){
-      return (A[i].getIp(z)<A[j].getIp(z))? true : false;
-    } else {
-      return compareIp(A,i,j,z+1);
-    }
-  } else {return false;}
-}
-
-template <class T>
 void Sorts<T>::mergeArray(vector<T> &A, vector<T> &B, int low, int mid, int high, int sortType){
 	int i=low,j=mid+1,k=low;
   switch(sortType){
     case 0:
       while (i<=mid && j<=high){
-        if (compareDate(A,i,j,0)){
+        if (compareDate(A[i],A[j],0)){
           B[k]=A[i];
           i++;
         } else {
@@ -84,7 +62,7 @@ void Sorts<T>::mergeArray(vector<T> &A, vector<T> &B, int low, int mid, int high
       break;
     case 1: 
       while (i<=mid && j<=high){
-        if (compareIp(A,i,j,0)){
+        if (compareIp(A[i],A[j],0)){
           B[k]=A[i];
           i++;
         } else {
@@ -126,8 +104,6 @@ void Sorts<T>::mergeArray(vector<T> &A, vector<T> &B, int low, int mid, int high
   }
 }
 
-
-
 template <class T>
 void Sorts<T>::mergeSplit(vector<T> &A, vector<T> &B, int low, int high,int sortType){
 	if((high-low)<1){
@@ -146,5 +122,26 @@ void Sorts<T>::mergeSort(vector<T> &v,int sortType){
 	mergeSplit(v,aux,0,v.size()-1,sortType);
 }
 
+template <class T>
+bool Sorts<T>::compareDate(T &A,T &B, int z){
+  if(z<4){
+    if(A.getDate(z)!=B.getDate(z)){
+      return (A.getDate(z)<B.getDate(z))? true : false;
+    } else {
+      return compareDate(A,B,z+1);
+    }
+  } else {return false;}
+}
+
+template <class T>
+bool Sorts<T>::compareIp(T &A,T &B, int z){
+  if(z<4){
+    if(A.getIp(z)!=B.getIp(z)){
+      return (A.getIp(z)<B.getIp(z))? true : false;
+    } else {
+      return compareIp(A,B,z+1);
+    }
+  } else {return false;}
+}
 
 #endif

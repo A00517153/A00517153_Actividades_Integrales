@@ -14,6 +14,7 @@ class logs {
 		string logText;
 	public:
     logs();
+    logs(int[5],int[5],string);
 		logs(string);
 		int getDate(int)const;
 		int getIp(int)const;
@@ -25,6 +26,14 @@ class logs {
 
 logs::logs(){
   //Empty constructor.
+}
+
+logs::logs(int d[5], int i[5], string t){
+  for(int is=0;is<5;is++){
+    date[is]=d[is];
+    ip[is]=i[is];
+  }
+  logText=t;
 }
 
 logs::logs(string log){
@@ -83,6 +92,7 @@ int logs::setMonth(string month){
 	if(month=="Oct"){return 10;}
 	if(month=="Nov"){return 11;}
 	if(month=="Dec"){return 12;}
+  else{return 0;}
 };
 
 string logs::getMonth(int month){
