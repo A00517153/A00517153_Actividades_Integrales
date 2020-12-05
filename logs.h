@@ -7,6 +7,7 @@
 
 using namespace std;
 
+//Estructura de entrada de regitro
 class log{
     private:
         string date, ip, logtext;
@@ -45,6 +46,7 @@ string log::toFile(){
     return aux.str();
 }
 
+//Estructura de ordenamiento de lista de registro
 class logSorts{
     private:
         void swap(vector<log>&,int,int);
@@ -70,6 +72,7 @@ void logSorts::copyArray(vector<log> &A, vector<log> &B, int low, int high){
 
 void logSorts::mergeArray(vector<log> &A, vector<log> &B, int low, int mid, int high, int stype){
   int i=low,j=mid+1,k=low;
+  //stype: 0-Fecha, 1-Ip, 2-Entrada de registro
     if(stype==0){
         while (i<=mid && j<=high){
             if (A[i].getDate()<A[j].getDate()){
@@ -147,12 +150,13 @@ void logSorts::mergeSplit(vector<log> &A, vector<log> &B, int low, int high, int
 
 void logSorts::ordenaMerge(vector<log> &v,int stype){
   vector<log> aux(v.size());
-
   mergeSplit(v,aux,0,v.size()-1,stype);
 }
 
+//Busqueda de valores para rango de busqueda
 int logSorts::busqBinaria(vector<log> &v, string n,int stype){
-  int low=0, mid, high=v.size()-1;
+    //stype: 0-Fecha, 1-Ip, 2-Entrada de registro
+    int low=0, mid, high=v.size()-1;
     if(stype==0){
         while (low < high){
             mid=(low+high)/2;
@@ -164,6 +168,7 @@ int logSorts::busqBinaria(vector<log> &v, string n,int stype){
             low=mid+1;
             }
         }
+        return low;
     }else if(stype==1){
         while (low < high){
             mid=(low+high)/2;
@@ -175,6 +180,7 @@ int logSorts::busqBinaria(vector<log> &v, string n,int stype){
             low=mid+1;
             }
         }
+        return low;
     }else if(stype==2){
         while (low < high){
             mid=(low+high)/2;
@@ -186,11 +192,12 @@ int logSorts::busqBinaria(vector<log> &v, string n,int stype){
             low=mid+1;
             }
         }
+        return low;
     }
     return -1;
 }
 
-
+// Estructura de almacenamiento de entradas de registro
 class logs{
     private:
         logSorts sorts;
@@ -217,10 +224,12 @@ void logs::sort(int stype){
 }
 
 string logs::range(string min, string max, int stype){
+    sort(stype);
     int i=sorts.busqBinaria(list,min,stype);
     int j=sorts.busqBinaria(list,max,stype);
     stringstream aux;
-    for(;i<=j;++i){
+    aux<<"\n"<<(j-i)<<" resultados arrojados por la busqueda.\n\n";
+    for(;i<j;i++){
         aux<<list[i].toString();
     }
     return aux.str();
