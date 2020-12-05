@@ -1,2 +1,0 @@
-language = "cpp"
-run = "clear &&cd /home/runner/A00517153ActividadesIntegrales/Act_1 && g++ main.cpp && ./a.out"
